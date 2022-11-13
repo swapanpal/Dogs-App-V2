@@ -2,4 +2,11 @@
     <string name="app_name">Dogs App V2</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="dog_name">Dog name</string>
+    <string name="dog_purpose">Dog purpose</string>
+    <string name="dog_temperament">Dog temperament</string>
+    <string name="dog_lifespan">Dog lifespan</string>
+    <string name="an_error_occured_while_loading_data">An error occured while loading data</string>
+    <string name="dog_name2">Dog name</string>
+    <string name="dog_lifespan2">Dog lifespan</string>
 </resources>

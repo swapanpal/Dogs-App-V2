@@ -25,13 +25,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/title"
-            android:text="Dog name"/>
+            android:text="@string/dog_name2"/>
         <TextView
             android:id="@+id/lifespan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/text"
-            android:text="Dog lifespan"/>
+            android:text="@string/dog_lifespan2"/>
 
     </LinearLayout>
 

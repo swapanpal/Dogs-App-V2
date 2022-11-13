@@ -20,7 +20,7 @@
     android:layout_height="wrap_content"
     style="@style/title"
     android:layout_margin="4dp"
-    android:text="Dog name"
+    android:text="@string/dog_name"
     android:layout_below="@id/dogImage"
     android:layout_centerHorizontal="true"/>
     <TextView
@@ -31,7 +31,7 @@
         android:layout_margin="4dp"
         android:layout_below="@id/dogName"
         android:layout_centerHorizontal="true"
-        android:text="Dog purpose"/>
+        android:text="@string/dog_purpose"/>
     <TextView
         android:id="@+id/dogTemperament"
         android:layout_width="wrap_content"
@@ -40,7 +40,7 @@
         android:layout_margin="4dp"
         android:layout_below="@id/dogPurpose"
         android:layout_centerHorizontal="true"
-        android:text="Dog temperament"/>
+        android:text="@string/dog_temperament"/>
     <TextView
         android:id="@+id/dogLifespan"
         android:layout_width="wrap_content"
@@ -49,6 +49,6 @@
         android:layout_margin="4dp"
         android:layout_below="@id/dogTemperament"
         android:layout_centerHorizontal="true"
-        android:text="Dog lifespan"/>
+        android:text="@string/dog_lifespan"/>
 
 </RelativeLayout>
