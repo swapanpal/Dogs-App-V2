@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dogsappv2.R;
 import com.example.dogsappv2.model.DogBreed;
+import com.example.dogsappv2.util.Util;
 
 import org.w3c.dom.Text;
 
@@ -47,6 +48,10 @@ public class DogsListAdapter extends RecyclerView.Adapter<DogsListAdapter.DogVie
 
         name.setText(dogsList.get(position).dogBreed);
         lifespan.setText(dogsList.get(position).lifeSpan);
+
+        // Code the below line after creating Util class for Glide
+        // This line of code load image from API by using Glide library
+        Util.loadImage(image, dogsList.get(position).imageUrl, Util.getProgressDrawable(image.getContext()));
 
     }
 
