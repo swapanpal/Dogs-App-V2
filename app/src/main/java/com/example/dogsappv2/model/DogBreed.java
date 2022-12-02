@@ -1,6 +1,7 @@
 package com.example.dogsappv2.model;
 
 import androidx.room.ColumnInfo;
+import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
@@ -8,6 +9,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * This model class hold all variables of the API that need in app
  */
+@Entity
 public class DogBreed {
     // public attribute that will come from API
     // use the same name of the variable that have in API, otherwise use below mention
@@ -42,7 +44,7 @@ public class DogBreed {
 
     // It is not as per API service, we will use it for database(Room Database
     @PrimaryKey(autoGenerate = true)
-    public int uui;
+    public int uuid;
 
     // Constructor for the above mentioned attribute of dog that will come from API
     public DogBreed(String breedId, String dogBreed, String lifeSpan, String breedGroup, String bredFor,
