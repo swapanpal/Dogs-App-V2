@@ -57,4 +57,7 @@ public class DogBreed {
         this.temperament = temperament;
         this.imageUrl = imageUrl;
     }
+    // Create a empty constructor
+    public DogBreed() {
+    }
 }

@@ -23,6 +23,6 @@ public abstract class DogDatabase extends RoomDatabase {
         return instance;
     }
 
-    public DogDao dogDao;  // not allowing DogDao as abstract
+    public abstract DogDao dogDao();
 
 }

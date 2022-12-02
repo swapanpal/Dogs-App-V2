@@ -1,12 +1,16 @@
 package com.example.dogsappv2.viewmodel;
 
 import android.app.Application;
+import android.os.AsyncTask;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.dogsappv2.model.DogBreed;
+import com.example.dogsappv2.model.DogDao;
+import com.example.dogsappv2.model.DogDatabase;
 import com.example.dogsappv2.model.DogsApiService;
 
 import java.util.ArrayList;
@@ -35,6 +39,9 @@ public class ListViewModel extends AndroidViewModel {
     // collect disposable observer
     private CompositeDisposable disposable = new CompositeDisposable();
 
+    // Create a instance of AsyncTask to use in any time
+    private AsyncTask<List<DogBreed>, Void, List<DogBreed>> insertTask;
+
     // Default constructor of the AndroidViewModel
     public ListViewModel(@NonNull Application application) {
         super(application);
@@ -57,9 +64,9 @@ public class ListViewModel extends AndroidViewModel {
                         .subscribeWith(new DisposableSingleObserver<List<DogBreed>>() {
                             @Override
                             public void onSuccess(List<DogBreed> dogBreeds) {
-                                dogs.setValue(dogBreeds);
-                                dogLoadError.setValue(false);
-                                loading.setValue(false);
+                               insertTask = new insertDogsTask();
+                               insertTask.execute(dogBreeds);
+                                Toast.makeText(getApplication(), "Dogs retrived from endpoint", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
@@ -72,10 +79,52 @@ public class ListViewModel extends AndroidViewModel {
         );
 
     }
+    // This method is called when data stored in local database
+    // This method will call on main thread
+    private void dogsRetrived(List<DogBreed> dogList){
+        dogs.setValue(dogList);
+        dogLoadError.setValue(false);
+        loading.setValue(false);
+    }
 
     @Override
     protected void onCleared() {
         super.onCleared();
         disposable.clear();
+
+        // if any task is running than cancel it and set value to null.
+        if (insertTask != null){
+            insertTask.cancel(true);
+            insertTask = null;
+        }
+    }
+
+    /**
+     * Create class for AsyncTask (Background thread)
+     */
+    private class insertDogsTask extends AsyncTask<List<DogBreed>, Void, List<DogBreed>>{
+
+        @Override
+        protected List<DogBreed> doInBackground(List<DogBreed>... lists) {
+            List<DogBreed> list = lists[0];
+            DogDao dao = DogDatabase.getInstance(getApplication()).dogDao();
+            dao.deleteAllDogs();  // First delete all dogs because we wants to create a fresh database
+
+            ArrayList<DogBreed> newList = new ArrayList<>(list);
+            List<Long> result = dao.insertAll(newList.toArray(new DogBreed[0]));
+
+            // create a while loop to get all dogs from the list
+            int i = 0;
+            while (i < list.size()){
+                list.get(i).uuid = result.get(i).intValue();
+                i++;
+            }
+            return list;
+        }
+
+        @Override
+        protected void onPostExecute(List<DogBreed> dogBreeds) {
+            dogsRetrived(dogBreeds);
+        }
     }
 }
