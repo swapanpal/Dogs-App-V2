@@ -12,6 +12,7 @@ import com.example.dogsappv2.model.DogBreed;
 import com.example.dogsappv2.model.DogDao;
 import com.example.dogsappv2.model.DogDatabase;
 import com.example.dogsappv2.model.DogsApiService;
+import com.example.dogsappv2.util.SharedpreferencesHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,11 @@ public class ListViewModel extends AndroidViewModel {
     // Create a instance of AsyncTask to use retrieving data in any time
     private AsyncTask<Void, Void, List<DogBreed>> retrieveTask;
 
+    // Create an instance of SharedPreferenceHelper class
+    private SharedpreferencesHelper prefHelper = SharedpreferencesHelper.getInstance(getApplication());
+    // minute * second * milli second * micro second * nano second
+    private long refreshTime = 5 * 60 * 1000 * 1000 * 1000L;  // 5 minutes
+
     // Default constructor of the AndroidViewModel
     public ListViewModel(@NonNull Application application) {
         super(application);
@@ -56,9 +62,14 @@ public class ListViewModel extends AndroidViewModel {
      * check data by fetchFromDatabase() method
      */
     public void refresh() {
-        // fetchFromRemote();
-        fetchFromDatabase();
+        long updateTime = prefHelper.getUpdateTime();
+        long currentTime = System.nanoTime();
 
+        if (updateTime != 0 && currentTime - updateTime < refreshTime){
+            fetchFromDatabase();
+        }else {
+            fetchFromRemote();
+        }
     }
     // Create a method to fetch data from database
     private void fetchFromDatabase(){
@@ -144,6 +155,8 @@ public class ListViewModel extends AndroidViewModel {
         @Override
         protected void onPostExecute(List<DogBreed> dogBreeds) {
             dogsRetrived(dogBreeds);
+            // save insert time in sharedPreferences
+            prefHelper.saveUpdateTime(System.nanoTime());
         }
     }
     /**
