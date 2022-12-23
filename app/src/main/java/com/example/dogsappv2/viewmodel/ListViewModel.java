@@ -71,6 +71,12 @@ public class ListViewModel extends AndroidViewModel {
             fetchFromRemote();
         }
     }
+    /**
+     * Create a method to refresh our swipe refresh layout
+     */
+    public void refreshBypassCache(){
+        fetchFromRemote();
+    }
     // Create a method to fetch data from database
     private void fetchFromDatabase(){
         loading.setValue(true);
@@ -90,7 +96,7 @@ public class ListViewModel extends AndroidViewModel {
                             public void onSuccess(List<DogBreed> dogBreeds) {
                                insertTask = new insertDogsTask();
                                insertTask.execute(dogBreeds);
-                                Toast.makeText(getApplication(), "Dogs retrived from endpoint", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplication(), "Dogs retrived from endpoint(api)", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
