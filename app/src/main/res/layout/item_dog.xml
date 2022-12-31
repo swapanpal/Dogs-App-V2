@@ -6,6 +6,9 @@
         <variable
             name="dog"
             type="com.example.dogsappv2.model.DogBreed" />
+        <variable
+            name="listener"
+            type="com.example.dogsappv2.view.DogClickListener" />
     </data>
 
     <LinearLayout
@@ -19,6 +22,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
+            android:imageUrl="@{dog.imageUrl}"
             android:src="@mipmap/ic_launcher_dogs"
             android:padding="4dp" />
 
@@ -28,7 +32,15 @@
             android:layout_weight="3"
             android:gravity="center_vertical"
             android:orientation="vertical"
+            android:onClick="@{listener::onClicked}"
             android:padding="4dp">
+            <!-- As Details Fragment have a uuid -->
+            <TextView
+                android:id="@+id/dogId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:text="@{String.valueOf(dog.uuid)}"/>
 
             <TextView
                 android:id="@+id/name"

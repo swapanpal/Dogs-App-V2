@@ -3,6 +3,7 @@ package com.example.dogsappv2.util;
 import android.content.Context;
 import android.widget.ImageView;
 
+import androidx.databinding.BindingAdapter;
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import com.bumptech.glide.Glide;
@@ -30,5 +31,12 @@ public class Util {
                 cpd.setCenterRadius(50f);
                 cpd.start();
                 return cpd;
+    }
+    // Create a imageUrl utility that we used in item_dog.xml file to bind the image
+    @BindingAdapter("android:imageUrl")
+    public static void loadImage(ImageView view, String url){
+        // this method call will automatically load the image
+        loadImage(view, url, getProgressDrawable(view.getContext()));
+
     }
 }

@@ -20,7 +20,7 @@ import com.example.dogsappv2.util.Util;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DogsListAdapter extends RecyclerView.Adapter<DogsListAdapter.DogViewHolder> {
+public class DogsListAdapter extends RecyclerView.Adapter<DogsListAdapter.DogViewHolder> implements DogClickListener {
 
     private ArrayList<DogBreed> dogsList;
 // Constructor for the class
@@ -47,6 +47,7 @@ public class DogsListAdapter extends RecyclerView.Adapter<DogsListAdapter.DogVie
     public void onBindViewHolder(@NonNull DogViewHolder holder, int position) {
         // below mention one line of code do all without image load
         holder.itemView.setDog(dogsList.get(position));
+        holder.itemView.setListener(this);
 
 //        ImageView image = holder.itemView.findViewById(R.id.imageView);
 //        TextView name = holder.itemView.findViewById(R.id.name);
@@ -68,11 +69,22 @@ public class DogsListAdapter extends RecyclerView.Adapter<DogsListAdapter.DogVie
 //        });
 
     }
+    @Override
+    public void onClicked(View v) {
+        String uuidString = ((TextView)v.findViewById(R.id.dogId)).getText().toString();
+        int uuid = Integer.valueOf(uuidString);
+
+        ListFragmentDirections.ActionDetail action = ListFragmentDirections.actionDetail();
+        action.setDogUuid(uuid);
+        Navigation.findNavController(v).navigate(action);
+    }
 
     @Override
     public int getItemCount() {
         return dogsList.size();
     }
+
+
 
     public class DogViewHolder extends RecyclerView.ViewHolder {
         // ItemDogBinding class automatically generate after binding view at xml file(item_dog) and rebuild the project
